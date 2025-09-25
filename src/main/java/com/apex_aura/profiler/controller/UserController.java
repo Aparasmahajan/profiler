@@ -3,13 +3,11 @@ package com.apex_aura.profiler.controller;
 import com.apex_aura.profiler.constants.UserConstant;
 import com.apex_aura.profiler.dto.ResponseDTO;
 import com.apex_aura.profiler.dto.requestDto.UserRequestDto;
-import com.apex_aura.profiler.repository.service.UserService;
+import com.apex_aura.profiler.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.LinkedHashMap;
 
 @RestController
 public class UserController {

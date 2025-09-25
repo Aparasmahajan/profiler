@@ -1,4 +1,4 @@
-package com.apex_aura.profiler.serviceImpl;
+package com.apex_aura.profiler.service.serviceImpl;
 
 import com.apex_aura.profiler.builder.ResponseBuilderFactory;
 import com.apex_aura.profiler.constants.MessageConstant;
@@ -9,9 +9,8 @@ import com.apex_aura.profiler.entity.Role;
 import com.apex_aura.profiler.entity.User;
 import com.apex_aura.profiler.repository.RoleRepository;
 import com.apex_aura.profiler.repository.UserRepository;
-import com.apex_aura.profiler.repository.service.UserService;
+import com.apex_aura.profiler.service.UserService;
 import com.apex_aura.profiler.utils.JwtUtil;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class RoleServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
 
