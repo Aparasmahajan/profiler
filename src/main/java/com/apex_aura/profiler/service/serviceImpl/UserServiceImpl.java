@@ -7,6 +7,7 @@ import com.apex_aura.profiler.dto.ResponseDTO;
 import com.apex_aura.profiler.dto.requestDto.UserRequestDto;
 import com.apex_aura.profiler.entity.Role;
 import com.apex_aura.profiler.entity.User;
+import com.apex_aura.profiler.repository.PortalRepository;
 import com.apex_aura.profiler.repository.RoleRepository;
 import com.apex_aura.profiler.repository.UserRepository;
 import com.apex_aura.profiler.service.UserService;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    PortalRepository portalRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -111,13 +115,38 @@ public class UserServiceImpl implements UserService{
             );
         }
 
-        String token = jwtUtil.generateToken(user.getUsername(), user.getId());
+        String token = jwtUtil.generateToken(user.getUsername(), user.getUserId());
 
         LinkedHashMap<String, Object> payload = new LinkedHashMap<>();
         payload.put("token", token);
         payload.put("username", user.getUsername());
         payload.put("email", user.getEmail());
         payload.put("roles", user.getRoles());
+
+        return ResponseBuilderFactory.getResponse(
+                ResponseConstant.SUCCESS_MESSAGE,
+                ResponseConstant.SUCCESS_CODE,
+                payload
+        );
+    }
+
+
+    @Override
+    public ResponseDTO isUserAdmin(Long userId, Long portalId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return ResponseBuilderFactory.getResponse(
+                    MessageConstant.USERNAME_NOT_FOUND,
+                    ResponseConstant.DATA_NOT_FOUND
+            );
+        }
+
+        User user = userOpt.get();
+
+        boolean isAdmin = portalRepository.existsByPortalIdAndAdmins_UserId(portalId, userId);
+
+        LinkedHashMap<String, Object> payload = new LinkedHashMap<>();
+        payload.put("isAdmin", isAdmin);
 
         return ResponseBuilderFactory.getResponse(
                 ResponseConstant.SUCCESS_MESSAGE,

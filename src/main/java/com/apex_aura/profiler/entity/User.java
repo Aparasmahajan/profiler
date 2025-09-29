@@ -1,5 +1,7 @@
 package com.apex_aura.profiler.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @Column(nullable = false, unique = true, length = 100)
     private String username;
@@ -27,7 +29,8 @@ public class User {
 
     private String fullName;
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "admins", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Portal> portals;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -4,4 +4,5 @@ public class PortalConstant {
     private PortalConstant() {}
     public static final String PORTAL = "/portal";
     public static final String GET_PORTAL_INFO = "/getPortalInfo";
+    public static final String CREATE_PORTAL = "/createPortal";
 }

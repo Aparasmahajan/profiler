@@ -76,6 +76,11 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.kafka</groupId>-->
+<!--			<artifactId>spring-kafka</artifactId>-->
+<!--			<version>3.0.12</version> &lt;!&ndash; Compatible with Spring Boot 3.x &ndash;&gt;-->
+<!--		</dependency>-->
 
 	</dependencies>
 

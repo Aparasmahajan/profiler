@@ -9,4 +9,6 @@ public interface UserService {
     ResponseDTO updateUser(UserRequestDto userRequest);
 
     ResponseDTO userLogin(UserRequestDto userRequest);
+
+    ResponseDTO isUserAdmin(Long userId, Long portalId);
 }

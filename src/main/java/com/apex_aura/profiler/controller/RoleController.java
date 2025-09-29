@@ -17,7 +17,7 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping(RoleConstant.GET_ALL_ROLES)
-    ResponseDTO userLogin(@RequestBody String portalName) {
+    ResponseDTO getRoles(@RequestBody String portalName) {
         return roleService.getAllRoles();
     }
 }
