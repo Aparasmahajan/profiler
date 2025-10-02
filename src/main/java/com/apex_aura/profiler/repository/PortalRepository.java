@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,5 +20,10 @@ public interface PortalRepository extends JpaRepository<Portal, Long> {
                                            @Param("userId") Long userId);
 
     boolean existsByPortalIdAndAdmins_UserId(Long portalId, Long userId);
+
+    List<Portal> findByAdmins_UserId(Long userId);
+
+    @Query("SELECT p.portalName FROM Portal p JOIN p.admins a WHERE a.userId = :userId")
+    List<String> findPortalNamesByUserId(@Param("userId") Long userId);
 
 }

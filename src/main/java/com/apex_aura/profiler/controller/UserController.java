@@ -6,10 +6,7 @@ import com.apex_aura.profiler.dto.requestDto.UserRequestDto;
 import com.apex_aura.profiler.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(UserConstant.USER)
@@ -30,5 +27,10 @@ public class UserController {
     @PostMapping(UserConstant.USER_LOGIN)
     ResponseDTO userLogin(@RequestBody UserRequestDto userRequest){
         return userService.userLogin(userRequest);
+    }
+
+    @PostMapping(UserConstant.GET_USER_BY_EMAIL)
+    ResponseDTO userEmail(@RequestParam String email){
+        return userService.findByEmail(email);
     }
 }

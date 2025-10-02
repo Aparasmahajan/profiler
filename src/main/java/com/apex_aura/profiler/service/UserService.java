@@ -11,4 +11,6 @@ public interface UserService {
     ResponseDTO userLogin(UserRequestDto userRequest);
 
     ResponseDTO isUserAdmin(Long userId, Long portalId);
+
+    ResponseDTO findByEmail(String email);
 }

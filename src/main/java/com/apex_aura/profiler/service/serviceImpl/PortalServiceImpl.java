@@ -4,6 +4,7 @@ import com.apex_aura.profiler.builder.ResponseBuilderFactory;
 import com.apex_aura.profiler.constants.ResponseConstant;
 import com.apex_aura.profiler.dto.ResponseDTO;
 import com.apex_aura.profiler.dto.requestDto.PortalRequestDto;
+import com.apex_aura.profiler.dto.responseDto.PortalResponseDto;
 import com.apex_aura.profiler.entity.Portal;
 import com.apex_aura.profiler.entity.Role;
 import com.apex_aura.profiler.entity.User;
@@ -14,6 +15,7 @@ import com.apex_aura.profiler.service.PortalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,21 +40,39 @@ public class PortalServiceImpl implements PortalService {
 
         Optional<Portal> portalOptional = portalRepository.findByPortalName(portalName);
 
-        Portal portal = new Portal();
-        if(portalOptional.isEmpty()) {
+        if (portalOptional.isEmpty()) {
             return ResponseBuilderFactory.getResponse(
                     ResponseConstant.DATA_NOT_FOUND,
                     ResponseConstant.DATA_NOT_FOUND
             );
-        } else {
-            portal = portalOptional.orElse(null);
         }
 
+        Portal portal = portalOptional.get();
+        PortalResponseDto dto = PortalResponseDto.builder()
+                .portalId(portal.getPortalId())
+                .portalName(portal.getPortalName())
+                .isActive(portal.getIsActive())
+                .createdAt(portal.getCreatedAt())
+                .updatedAt(portal.getUpdatedAt())
+                .admins(
+                        portal.getAdmins() != null
+                                ? portal.getAdmins().stream()
+                                .map(user -> PortalResponseDto.AdminSummaryDTO.builder()
+                                        .username(user.getUsername())
+                                        .email(user.getEmail())
+                                        .fullName(user.getFullName())
+                                        .userId(user.getUserId())
+                                        .build())
+                                .toList()
+                                : List.of()
+                )
+
+                .build();
 
         return ResponseBuilderFactory.getResponse(
                 ResponseConstant.SUCCESS_MESSAGE,
                 ResponseConstant.SUCCESS_CODE,
-                portal
+                dto
         );
     }
 

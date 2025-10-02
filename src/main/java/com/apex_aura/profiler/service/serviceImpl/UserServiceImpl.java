@@ -5,6 +5,7 @@ import com.apex_aura.profiler.constants.MessageConstant;
 import com.apex_aura.profiler.constants.ResponseConstant;
 import com.apex_aura.profiler.dto.ResponseDTO;
 import com.apex_aura.profiler.dto.requestDto.UserRequestDto;
+import com.apex_aura.profiler.dto.responseDto.UserLimitedResponseDto;
 import com.apex_aura.profiler.entity.Role;
 import com.apex_aura.profiler.entity.User;
 import com.apex_aura.profiler.repository.PortalRepository;
@@ -123,6 +124,8 @@ public class UserServiceImpl implements UserService{
         payload.put("email", user.getEmail());
         payload.put("roles", user.getRoles());
 
+        payload.put("portals",portalRepository.findPortalNamesByUserId(user.getUserId()));
+
         return ResponseBuilderFactory.getResponse(
                 ResponseConstant.SUCCESS_MESSAGE,
                 ResponseConstant.SUCCESS_CODE,
@@ -152,6 +155,28 @@ public class UserServiceImpl implements UserService{
                 ResponseConstant.SUCCESS_MESSAGE,
                 ResponseConstant.SUCCESS_CODE,
                 payload
+        );
+    }
+
+
+
+    @Override
+    public ResponseDTO findByEmail(String email) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isEmpty()) {
+            return ResponseBuilderFactory.getResponse(
+                    MessageConstant.USERNAME_NOT_FOUND,
+                    ResponseConstant.DATA_NOT_FOUND
+            );
+        }
+
+        UserLimitedResponseDto userLimitedResponseDto = new UserLimitedResponseDto();
+        BeanUtils.copyProperties(userOpt.get(), userLimitedResponseDto);
+
+        return ResponseBuilderFactory.getResponse(
+                ResponseConstant.SUCCESS_MESSAGE,
+                ResponseConstant.SUCCESS_CODE,
+                userOpt.get()
         );
     }
 
