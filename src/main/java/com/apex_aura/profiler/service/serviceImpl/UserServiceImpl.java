@@ -170,13 +170,10 @@ public class UserServiceImpl implements UserService{
             );
         }
 
-        UserLimitedResponseDto userLimitedResponseDto = new UserLimitedResponseDto();
-        BeanUtils.copyProperties(userOpt.get(), userLimitedResponseDto);
-
         return ResponseBuilderFactory.getResponse(
                 ResponseConstant.SUCCESS_MESSAGE,
                 ResponseConstant.SUCCESS_CODE,
-                userOpt.get()
+                userOpt.get().getUserId()
         );
     }
 
